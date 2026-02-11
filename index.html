@@ -3,31 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TEST - JSR Portal</title>
+    <title>JSR Portal - SG Misburg</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
 </head>
 <body>
 
-<header style="background: #e53e3e;">
-    <h1>🧪 TEST-UMGEBUNG (test-jsr1)</h1>
+<header style="background: #0033a0;">
+    <h1>JSR Portal - SG Misburg</h1>
 </header>
 
 <div id="loginSection">
     <div class="card login-card">
         <h2 id="authTitle">Login</h2>
         <input type="email" id="emailInput" placeholder="E-Mail...">
-        <input type="password" id="pwInput" placeholder="Passwort (min. 6 Zeichen)...">
-        
+        <input type="password" id="pwInput" placeholder="Passwort...">
         <div id="authButtons">
             <button onclick="handleLogin()" class="full-btn">Einloggen</button>
-            <p style="margin: 15px 0 5px 0; font-size: 0.9rem;">Noch kein Konto?</p>
-            <button onclick="toggleAuthMode()" class="full-btn" style="background: #718096;">Jetzt Registrieren</button>
+            <p style="margin: 15px 0 5px 0; font-size: 0.8rem;">Neu hier?</p>
+            <button onclick="toggleAuthMode()" class="full-btn" style="background: #718096;">Konto erstellen</button>
         </div>
-        
-        <p id="errorMsg" style="color: red; margin-top: 10px; font-weight: bold;"></p>
+        <p id="errorMsg" style="color: red; margin-top: 10px;"></p>
     </div>
 </div>
 
@@ -45,15 +42,16 @@
     </div>
 
     <div class="card">
+        <h3>🗓️ Spielplan</h3>
         <div id="calendar"></div>
     </div>
 
     <div class="section-container">
         <div class="table-header-flex">
-            <h3>⚽ Test-Spiele</h3>
-            <button class="admin-only add-btn" onclick="addEntry('spiele')" style="display:none;">+ Spiel hinzufügen</button>
+            <h3>⚽ Spiele</h3>
+            <button class="admin-only add-btn" onclick="addEntry()" style="display:none;">+ Neues Spiel</button>
         </div>
-        <div class="desktop-view table-container">
+        <div class="table-container">
             <table id="spieleTable">
                 <thead>
                     <tr>
@@ -63,11 +61,6 @@
                 <tbody></tbody>
             </table>
         </div>
-        <div id="spieleMobile" class="mobile-view"></div>
-    </div>
-
-    <div class="card">
-        <button class="export-btn full-btn" style="background: #2f855a;" onclick="exportPDF()">PDF Test-Export</button>
     </div>
 </div>
 
