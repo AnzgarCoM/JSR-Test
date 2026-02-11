@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>JSR Portal - SG Misburg</title>
+    <title>TEST - JSR Portal</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -11,25 +11,24 @@
 </head>
 <body>
 
-<header>
-    <h1>JSR Portal - SG Misburg</h1>
+<header style="background: #e53e3e;">
+    <h1>🧪 TEST-UMGEBUNG (test-jsr1)</h1>
 </header>
 
 <div id="loginSection">
     <div class="card login-card">
-        <h2>Interner Login</h2>
-        <p style="font-size: 0.8rem; color: #718096; margin-bottom: 15px;">Bitte mit E-Mail und Passwort anmelden.</p>
-        <input type="email" id="emailInput" placeholder="E-Mail Adresse..." style="margin-bottom: 10px;">
+        <h2>Firebase Auth Login</h2>
+        <input type="email" id="emailInput" placeholder="E-Mail...">
         <input type="password" id="pwInput" placeholder="Passwort...">
-        <button onclick="handleLogin()" class="full-btn" style="margin-top: 15px;">Anmelden</button>
-        <p id="errorMsg" class="error-msg" style="color: #e53e3e; margin-top: 10px; font-weight: bold;"></p>
+        <button onclick="handleLogin()" class="full-btn">Einloggen</button>
+        <p id="errorMsg" style="color: red; margin-top: 10px;"></p>
     </div>
 </div>
 
 <div id="mainContent" style="display:none;">
     <div class="user-bar">
         <div class="user-info">
-            <span id="userStatus">Lädt...</span>
+            <span id="userStatus">...</span>
             <span id="onlineIndicator" class="status-dot"></span>
         </div>
         <button onclick="handleLogout()" class="logout-btn">Abmelden 🚪</button>
@@ -39,26 +38,20 @@
         <div id="dashboard" class="dashboard-grid"></div>
     </div>
 
-    <div id="adminChartSection" class="card admin-only" style="display:none;">
-        <h3>📊 Schiri-Verteilung</h3>
-        <div class="chart-container"><canvas id="statsChart"></canvas></div>
-    </div>
-
     <div class="card">
-        <h3>🗓️ Spielplan Kalender</h3>
         <div id="calendar"></div>
     </div>
 
     <div class="section-container">
         <div class="table-header-flex">
-            <h3>⚽ Einzelspiele</h3>
-            <button class="admin-only add-btn" onclick="addEntry('spiele')" style="display:none;">+ Spiel</button>
+            <h3>⚽ Test-Spiele</h3>
+            <button class="admin-only add-btn" onclick="addEntry('spiele')" style="display:none;">+ Spiel hinzufügen</button>
         </div>
         <div class="desktop-view table-container">
             <table id="spieleTable">
                 <thead>
                     <tr>
-                        <th>Datum</th><th>Zeit</th><th>Halle</th><th>Klasse</th><th>JSR 1</th><th>JSR 2</th><th>Bemerkung</th><th class="status-col">Status</th><th class="admin-only">X</th>
+                        <th>Datum</th><th>Zeit</th><th>Halle</th><th>Klasse</th><th>JSR 1</th><th>JSR 2</th><th>Bemerkung</th><th>Status</th><th class="admin-only">X</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -67,26 +60,8 @@
         <div id="spieleMobile" class="mobile-view"></div>
     </div>
 
-    <div class="section-container">
-        <div class="table-header-flex">
-            <h3>🏆 Turniere</h3>
-            <button class="admin-only add-btn" onclick="addEntry('turniere')" style="display:none;">+ Turnier</button>
-        </div>
-        <div class="desktop-view table-container">
-            <table id="turnierTable">
-                <thead>
-                    <tr>
-                        <th>Datum</th><th class="time-col">Von-Bis</th><th>Halle</th><th>Turnier</th><th>JSR 1</th><th>JSR 2</th><th>JSR 3</th><th>Bemerkung</th><th class="status-col">Status</th><th class="admin-only">X</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-        <div id="turniereMobile" class="mobile-view"></div>
-    </div>
-
     <div class="card">
-        <button class="export-btn full-btn" style="background: #2f855a;" onclick="exportPDF()">Plan als PDF speichern</button>
+        <button class="export-btn full-btn" style="background: #2f855a;" onclick="exportPDF()">PDF Test-Export</button>
     </div>
 </div>
 
