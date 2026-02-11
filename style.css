@@ -20,3 +20,9 @@ input, select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; width:
 .full-btn { background: #0033a0; color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: bold; }
 .logout-btn { background: none; border: 1px solid #e53e3e; color: #e53e3e; padding: 5px 10px; border-radius: 20px; cursor: pointer; }
 @media (max-width: 850px) { .desktop-view { display: none; } .mobile-view { display: block; } }
+/* Versteckt Admin-Elemente standardmäßig */
+.admin-only {
+    display: none;
+}
+
+/* Diese Klasse wird vom Script nur für dich auf 'inline-block' gesetzt */
