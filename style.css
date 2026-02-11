@@ -1,0 +1,211 @@
+/* --- BASIS & LAYOUT --- */
+body { 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+    background: #f0f2f5; 
+    margin: 0; 
+    padding-bottom: 50px; 
+    color: #1a202c; 
+}
+
+header { 
+    background: #0033a0; 
+    color: white; 
+    padding: 20px; 
+    text-align: center; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+}
+
+/* --- LOGIN BEREICH --- */
+#loginSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.login-card {
+    max-width: 400px !important;
+    text-align: center;
+    padding: 30px !important;
+}
+
+/* --- DASHBOARD (OBEN ZENTRIERT) --- */
+.dashboard-container { 
+    width: 100%; 
+    display: flex; 
+    justify-content: center; 
+    margin: 15px 0; 
+}
+
+.dashboard-grid { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 10px; 
+    width: 94%; 
+    max-width: 800px; 
+}
+
+.stat-card { 
+    padding: 15px 5px; 
+    border-radius: 12px; 
+    text-align: center; 
+    color: white; 
+    font-weight: bold; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+}
+
+.stat-num { display: block; font-size: 1.6rem; }
+.stat-label { font-size: 0.7rem; text-transform: uppercase; opacity: 0.9; }
+
+.blue-card { background: linear-gradient(135deg, #3182ce, #2c5282); }
+.red-card { background: linear-gradient(135deg, #e53e3e, #9b2c2c); }
+.green-card { background: linear-gradient(135deg, #38a169, #276749); }
+
+/* --- USER BAR --- */
+.user-bar { 
+    background: #fff; 
+    padding: 12px 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    border-bottom: 1px solid #edf2f7; 
+    position: sticky; 
+    top: 0; 
+    z-index: 1000; 
+}
+
+.user-info { display: flex; align-items: center; gap: 10px; font-weight: bold; }
+
+.status-dot { 
+    width: 10px; 
+    height: 10px; 
+    border-radius: 50%; 
+    background: #cbd5e0; 
+    display: inline-block; 
+}
+
+.status-dot.online { background: #38a169; box-shadow: 0 0 8px #38a169; }
+.status-dot.offline { background: #e53e3e; }
+
+.logout-btn { 
+    background: #fff; 
+    color: #e53e3e; 
+    border: 1px solid #e53e3e; 
+    padding: 6px 15px; 
+    border-radius: 20px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    font-size: 0.85rem;
+}
+
+/* --- ALLGEMEINE CARDS --- */
+.card { 
+    background: white; 
+    margin: 10px auto; 
+    padding: 15px; 
+    border-radius: 12px; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
+    width: 94%; 
+    max-width: 1200px; 
+    box-sizing: border-box; 
+}
+
+.no-border { background: transparent; box-shadow: none; }
+
+/* --- TABELLEN (PC) --- */
+.table-container { 
+    background: white; 
+    border-radius: 12px; 
+    overflow-x: auto; 
+}
+
+table { width: 100%; border-collapse: collapse; min-width: 1000px; }
+th { background: #f7fafc; padding: 12px; text-align: left; font-size: 12px; color: #4a5568; }
+td { padding: 8px; border-bottom: 1px solid #edf2f7; }
+
+/* --- MOBILE CARDS --- */
+.mobile-view { display: none; }
+
+.mobile-card { 
+    background: white; 
+    margin-bottom: 15px; 
+    padding: 15px; 
+    border-radius: 12px; 
+    border-left: 6px solid #ccc; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+    position: relative; 
+}
+
+.mobile-card.offen { border-left-color: #e53e3e; }
+.mobile-card.besetzt { border-left-color: #38a169; }
+
+.card-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 10px; 
+}
+
+.card-item label { 
+    display: block; 
+    font-size: 10px; 
+    color: #718096; 
+    text-transform: uppercase; 
+    margin-bottom: 2px;
+}
+
+.card-item.full { grid-column: span 2; }
+
+/* --- RESPONSIVE SWITCH --- */
+@media (max-width: 850px) {
+    .desktop-view { display: none; }
+    .mobile-view { display: block; }
+    .fc-header-toolbar { flex-direction: column; gap: 10px; }
+    .dashboard-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+/* --- FORMULARE & BUTTONS --- */
+input, select { 
+    padding: 10px; 
+    border: 1px solid #cbd5e0; 
+    border-radius: 6px; 
+    width: 100%; 
+    box-sizing: border-box; 
+    font-size: 14px; 
+}
+
+input:focus, select:focus {
+    border-color: #3182ce;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.full-btn { 
+    background: #0033a0; 
+    color: white; 
+    border: none; 
+    padding: 15px; 
+    border-radius: 8px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    width: 100%; 
+    transition: background 0.2s;
+}
+
+.full-btn:hover { background: #00257a; }
+
+.add-btn { 
+    background: #3182ce; 
+    color: white; 
+    border: none; 
+    padding: 8px 15px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+}
+
+/* --- KALENDER --- */
+#calendar { 
+    background: white; 
+    padding: 10px; 
+    border-radius: 12px; 
+    min-height: 350px;
+}
