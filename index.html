@@ -17,11 +17,17 @@
 
 <div id="loginSection">
     <div class="card login-card">
-        <h2>Firebase Auth Login</h2>
+        <h2 id="authTitle">Login</h2>
         <input type="email" id="emailInput" placeholder="E-Mail...">
-        <input type="password" id="pwInput" placeholder="Passwort...">
-        <button onclick="handleLogin()" class="full-btn">Einloggen</button>
-        <p id="errorMsg" style="color: red; margin-top: 10px;"></p>
+        <input type="password" id="pwInput" placeholder="Passwort (min. 6 Zeichen)...">
+        
+        <div id="authButtons">
+            <button onclick="handleLogin()" class="full-btn">Einloggen</button>
+            <p style="margin: 15px 0 5px 0; font-size: 0.9rem;">Noch kein Konto?</p>
+            <button onclick="toggleAuthMode()" class="full-btn" style="background: #718096;">Jetzt Registrieren</button>
+        </div>
+        
+        <p id="errorMsg" style="color: red; margin-top: 10px; font-weight: bold;"></p>
     </div>
 </div>
 

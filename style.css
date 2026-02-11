@@ -1,17 +1,22 @@
-body { font-family: sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 50px; }
+body { font-family: -apple-system, sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 50px; }
 header { color: white; padding: 15px; text-align: center; }
 .card { background: white; margin: 10px auto; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); width: 94%; max-width: 1200px; box-sizing: border-box; }
+.login-card { max-width: 400px !important; margin-top: 50px; text-align: center; }
 .dashboard-container { width: 100%; display: flex; justify-content: center; margin: 15px 0; }
 .dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 94%; max-width: 800px; }
 .stat-card { padding: 15px 5px; border-radius: 12px; text-align: center; color: white; font-weight: bold; }
 .blue-card { background: #3182ce; } .red-card { background: #e53e3e; } .green-card { background: #38a169; }
 .user-bar { background: #fff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; }
 .status-dot { width: 10px; height: 10px; border-radius: 50%; background: #ccc; display: inline-block; }
-.status-dot.online { background: #38a169; }
+.status-dot.online { background: #38a169; box-shadow: 0 0 5px #38a169; }
 .table-container { background: white; border-radius: 12px; overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; min-width: 1000px; }
 td, th { padding: 10px; border-bottom: 1px solid #edf2f7; text-align: left; }
+input, select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 100%; }
 .mobile-view { display: none; }
-.mobile-card { background: white; margin-bottom: 15px; padding: 15px; border-radius: 12px; border-left: 6px solid #ccc; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.full-btn { background: #0033a0; color: white; border: none; padding: 15px; border-radius: 8px; width: 100%; cursor: pointer; }
+.mobile-card { background: white; margin-bottom: 10px; padding: 15px; border-radius: 12px; border-left: 6px solid #ccc; }
+.mobile-card.offen { border-left-color: #e53e3e; }
+.mobile-card.besetzt { border-left-color: #38a169; }
+.full-btn { background: #0033a0; color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: bold; }
+.logout-btn { background: none; border: 1px solid #e53e3e; color: #e53e3e; padding: 5px 10px; border-radius: 20px; cursor: pointer; }
 @media (max-width: 850px) { .desktop-view { display: none; } .mobile-view { display: block; } }
