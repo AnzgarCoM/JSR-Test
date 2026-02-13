@@ -1,29 +1,28 @@
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f4f8; margin: 0; color: #333; }
-header { background: #0033a0; color: white; padding: 20px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-.card { background: white; margin: 20px auto; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 90%; max-width: 1100px; }
-.login-card { max-width: 380px; text-align: center; margin-top: 60px; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; color: #333; }
+header { background: #0033a0; color: white; padding: 15px; text-align: center; font-size: 0.9rem; }
+.card { background: white; margin: 15px auto; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 90%; max-width: 1200px; }
+.login-card { max-width: 350px; text-align: center; margin-top: 50px; }
 
-input, select { padding: 10px; margin: 5px 0; border: 1px solid #cbd5e0; border-radius: 6px; width: 100%; box-sizing: border-box; font-size: 1rem; }
-input:disabled, select:disabled { background: #f7fafc; color: #2d3748; border: 1px solid #edf2f7; cursor: not-allowed; opacity: 1; -webkit-text-fill-color: #2d3748; }
+input, select { padding: 8px; margin: 5px 0; border: 1px solid #ddd; border-radius: 5px; width: 100%; box-sizing: border-box; }
+input:disabled, select:disabled { background: #f9f9f9; color: #333; border: 1px solid #eee; opacity: 1; -webkit-text-fill-color: #333; }
 
-.full-btn { background: #0033a0; color: white; border: none; padding: 12px; border-radius: 6px; width: 100%; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.3s; }
-.full-btn:hover { background: #002580; }
-.secondary-btn { background: #fff; color: #0033a0; border: 1px solid #0033a0; padding: 10px; border-radius: 6px; width: 100%; cursor: pointer; font-weight: bold; }
+.full-btn { background: #0033a0; color: white; border: none; padding: 12px; border-radius: 6px; width: 100%; cursor: pointer; font-weight: bold; }
+.secondary-btn { background: white; color: #0033a0; border: 1px solid #0033a0; padding: 10px; border-radius: 6px; width: 100%; cursor: pointer; }
 
-.user-bar { background: white; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0033a0; margin-bottom: 20px; }
-.logout-btn { background: #feb2b2; color: #9b2c2c; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; }
+.user-bar { background: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0033a0; }
+.logout-btn { background: #fee2e2; color: #991b1b; border: none; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 0.8rem; }
 
-.table-container { background: white; border-radius: 8px; overflow-x: auto; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-table { width: 100%; border-collapse: collapse; min-width: 900px; }
-th { background: #edf2f7; padding: 12px; text-align: left; font-size: 0.9rem; color: #4a5568; }
-td { padding: 10px; border-bottom: 1px solid #edf2f7; }
+.table-container { overflow-x: auto; margin-top: 10px; }
+table { width: 100%; border-collapse: collapse; min-width: 850px; }
+th { background: #f8fafc; padding: 10px; text-align: left; border-bottom: 2px solid #eee; font-size: 0.85rem; }
+td { padding: 8px; border-bottom: 1px solid #f0f0f0; }
 
-.status-offen { color: #e53e3e; font-weight: bold; }
-.status-besetzt { color: #38a169; font-weight: bold; }
+.status-offen { color: #dc2626; font-weight: bold; }
+.status-besetzt { color: #16a34a; font-weight: bold; }
 
-.whatsapp-btn { background: #25D366; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; font-size: 0.85rem; }
-.add-btn { background: #38a169; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+.whatsapp-btn { background: #25D366; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; font-size: 0.75rem; }
+.add-btn { background: #16a34a; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
 
-.dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 90%; max-width: 600px; margin: 0 auto 20px; }
-.stat-card { padding: 15px; border-radius: 10px; text-align: center; color: white; }
-.stat-card span { font-size: 1.5rem; display: block; }
+.dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 90%; max-width: 600px; margin: 15px auto; }
+.stat-card { padding: 10px; border-radius: 8px; text-align: center; color: white; font-size: 0.8rem; }
+.stat-card b { font-size: 1.2rem; display: block; }

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>JSR Portal - SG Misburg</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
@@ -21,31 +20,28 @@
         
         <div id="authButtons">
             <button onclick="handleLogin()" class="full-btn">Einloggen</button>
-            <p style="margin: 10px 0;">Oder</p>
-            <button onclick="toggleAuthMode()" class="secondary-btn">Konto erstellen</button>
+            <p style="margin: 10px 0; font-size: 0.8rem;">Noch kein Konto?</p>
+            <button onclick="toggleAuthMode()" class="secondary-btn">Registrieren</button>
         </div>
         
         <p style="margin-top: 20px;">
             <a href="#" onclick="forgotPassword()" style="font-size: 0.85rem; color: #0033a0; text-decoration: none;">Passwort vergessen?</a>
         </p>
-        <p id="errorMsg" style="color: red; margin-top: 10px; font-weight: bold;"></p>
     </div>
 </div>
 
 <div id="mainContent" style="display:none;">
     <div class="user-bar">
-        <div class="user-info">
-            <span id="userStatus">Berechtigung wird geprüft...</span>
-        </div>
+        <span id="userStatus">Prüfe Status...</span>
         <button onclick="handleLogout()" class="logout-btn">Abmelden 🚪</button>
     </div>
 
     <div id="dashboard" class="dashboard-grid"></div>
 
-    <div class="section-container">
+    <div class="card table-card">
         <div class="table-header-flex">
-            <h2>⚽ Spielplan</h2>
-            <button class="admin-only add-btn" onclick="addEntry()" style="display:none;">+ Neues Spiel hinzufügen</button>
+            <h3>⚽ Aktueller Spielplan</h3>
+            <button class="admin-only add-btn" onclick="addEntry()" style="display:none;">+ Neues Spiel</button>
         </div>
         
         <div class="table-container">
