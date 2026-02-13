@@ -17,17 +17,16 @@ const auth = getAuth(app);
 
 const DOC_REF = doc(db, "plan", "test_struktur");
 const ADMIN_EMAIL = "sgmisburgjsr@outlook.de";
-const MEINE_NUMMER = "4915204500763"; // <--- HIER DEINE HANDYNUMMER EINTRAGEN (49 vorne)
+const MEINE_NUMMER = "4917612345678"; // Deine Nummer hier!
 
 let userRole = null;
 let allData = { spiele: [] };
-let isRegistrationMode = false;
 
-// --- LOGIN & AUTH ---
+// --- LOGIN LOGIK ---
 window.handleLogin = () => {
     const email = document.getElementById("emailInput").value.trim();
     const pw = document.getElementById("pwInput").value;
-    signInWithEmailAndPassword(auth, email, pw).catch(e => alert("Login-Fehler: " + e.message));
+    signInWithEmailAndPassword(auth, email, pw).catch(e => alert("Fehler: " + e.message));
 };
 
 window.handleRegister = () => {
@@ -36,17 +35,9 @@ window.handleRegister = () => {
     createUserWithEmailAndPassword(auth, email, pw).then(() => alert("Konto erstellt!")).catch(e => alert(e.message));
 };
 
-window.toggleAuthMode = () => {
-    isRegistrationMode = !isRegistrationMode;
-    document.getElementById("authTitle").innerText = isRegistrationMode ? "Registrieren" : "Login";
-    document.getElementById("authButtons").innerHTML = isRegistrationMode ? 
-        `<button onclick="handleRegister()" class="full-btn">Konto jetzt erstellen</button><button onclick="location.reload()" class="secondary-btn" style="margin-top:10px;">Zurück</button>` : 
-        `<button onclick="handleLogin()" class="full-btn">Einloggen</button><button onclick="toggleAuthMode()" class="secondary-btn" style="margin-top:10px;">Registrieren</button>`;
-};
-
 window.forgotPassword = () => {
     const email = document.getElementById("emailInput").value.trim();
-    if(!email) return alert("Gib erst deine E-Mail ein.");
+    if(!email) return alert("E-Mail eingeben!");
     sendPasswordResetEmail(auth, email).then(() => alert("E-Mail gesendet!")).catch(e => alert(e.message));
 };
 
@@ -62,11 +53,11 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// --- HAUPTFUNKTIONEN ---
+// --- HAUPT APP ---
 function startApp() {
     document.getElementById("loginSection").style.display = "none";
     document.getElementById("mainContent").style.display = "block";
-    document.getElementById("userStatus").innerText = userRole === 'admin' ? "Eingeloggt als Admin 👑" : "Eingeloggt als Schiedsrichter 🏃";
+    document.getElementById("userStatus").innerText = userRole === 'admin' ? "Admin Modus 👑" : "Schiri Modus 🏃";
     
     if (userRole === 'admin') {
         document.querySelectorAll('.admin-only').forEach(e => e.style.display = 'inline-block');
@@ -78,6 +69,7 @@ function startApp() {
             renderTable();
             updateDashboard();
         } else if (userRole === 'admin') {
+            // Initiales Dokument erstellen, falls gelöscht
             setDoc(DOC_REF, { spiele: [] });
         }
     });
@@ -85,25 +77,29 @@ function startApp() {
 
 function renderTable() {
     const tbody = document.querySelector("#spieleTable tbody");
+    if (!tbody) return;
     tbody.innerHTML = "";
+    
     const isAdmin = (userRole === 'admin');
     const heute = new Date().toISOString().split('T')[0];
+    const spieleListe = allData.spiele || [];
 
-    // Automatische Sortierung nach Datum
-    const sortierteSpiele = [...allData.spiele].sort((a, b) => new Date(a.date) - new Date(b.date));
+    // Sortierung
+    const sortierteSpiele = [...spieleListe].sort((a, b) => {
+        return new Date(a.date || '9999-12-31') - new Date(b.date || '9999-12-31');
+    });
 
     sortierteSpiele.forEach((item, i) => {
-        // Schiris sehen keine alten Spiele
         if (item.date && item.date < heute && !isAdmin) return;
 
         const tr = document.createElement("tr");
         tr.innerHTML = `
-            <td><input type="date" value="${item.date}" ${!isAdmin?'disabled':''} onchange="updateRow(${i},'date',this.value)"></td>
-            <td><input type="text" value="${item.time}" ${!isAdmin?'disabled':''} onchange="updateRow(${i},'time',this.value)"></td>
-            <td><input type="text" value="${item.hall}" ${!isAdmin?'disabled':''} onchange="updateRow(${i},'hall',this.value)"></td>
-            <td><input type="text" value="${item.age}" ${!isAdmin?'disabled':''} onchange="updateRow(${i},'age',this.value)"></td>
-            <td><input type="text" value="${item.jsr1}" ${!isAdmin?'disabled':''} onchange="updateRow(${i},'jsr1',this.value)"></td>
-            <td><input type="text" value="${item.jsr2}" ${!isAdmin?'disabled':''} onchange="updateRow(${i},'jsr2',this.value)"></td>
+            <td><input type="date" value="${item.date || ''}" ${!isAdmin?'disabled':''} onchange="updateRow(${i},'date',this.value)"></td>
+            <td><input type="text" value="${item.time || ''}" ${!isAdmin?'disabled':''} onchange="updateRow(${i},'time',this.value)"></td>
+            <td><input type="text" value="${item.hall || ''}" ${!isAdmin?'disabled':''} onchange="updateRow(${i},'hall',this.value)"></td>
+            <td><input type="text" value="${item.age || ''}" ${!isAdmin?'disabled':''} onchange="updateRow(${i},'age',this.value)"></td>
+            <td><input type="text" value="${item.jsr1 || ''}" ${!isAdmin?'disabled':''} onchange="updateRow(${i},'jsr1',this.value)"></td>
+            <td><input type="text" value="${item.jsr2 || ''}" ${!isAdmin?'disabled':''} onchange="updateRow(${i},'jsr2',this.value)"></td>
             <td>
                 <select ${!isAdmin?'disabled':''} onchange="updateRow(${i},'status',this.value)" class="${item.status==='Offen'?'status-offen':'status-besetzt'}">
                     <option value="Offen" ${item.status==='Offen'?'selected':''}>Offen</option>
@@ -111,17 +107,16 @@ function renderTable() {
                 </select>
             </td>
             <td>
-                ${item.status === 'Offen' ? 
-                `<button class="whatsapp-btn" onclick="sendWhatsApp('${item.date}','${item.time}','${item.age}','${item.hall}')">Melden 🟢</button>` : '---'}
+                <button class="whatsapp-btn" onclick="sendWhatsApp('${item.date || ''}','${item.time || ''}','${item.age || ''}','${item.hall || ''}')">Melden 🟢</button>
             </td>
-            ${isAdmin ? `<td><button onclick="deleteEntry(${i})" style="color:red; background:none; border:none; cursor:pointer; font-size:1.2rem;">🗑️</button></td>` : ''}
+            ${isAdmin ? `<td><button onclick="deleteEntry(${i})" style="color:red; background:none; border:none; cursor:pointer;">🗑️</button></td>` : ''}
         `;
         tbody.appendChild(tr);
     });
 }
 
-window.sendWhatsApp = (date, time, age, hall) => {
-    const msg = `Hallo! Ich möchte folgendes Spiel pfeifen:\n📅 Datum: ${date}\n⏰ Zeit: ${time}\n⚽ Spiel: ${age}\n🏢 Halle: ${hall}\n\nIst das noch frei?`;
+window.sendWhatsApp = (d, t, a, h) => {
+    const msg = `Anmeldung JSR:\nDatum: ${d}\nZeit: ${t}\nSpiel: ${a}\nHalle: ${h}`;
     window.open(`https://wa.me/${MEINE_NUMMER}?text=${encodeURIComponent(msg)}`, '_blank');
 };
 
@@ -132,7 +127,9 @@ window.updateRow = async (i, k, v) => {
 };
 
 window.addEntry = async () => {
-    allData.spiele.push({ date: "", time: "", hall: "", age: "", jsr1: "", jsr2: "", status: "Offen" });
+    if (userRole !== 'admin') return;
+    const neu = { date: "", time: "", hall: "", age: "", jsr1: "", jsr2: "", status: "Offen" };
+    allData.spiele.push(neu);
     await setDoc(DOC_REF, allData);
 };
 
@@ -146,8 +143,8 @@ window.deleteEntry = async (i) => {
 function updateDashboard() {
     const offen = allData.spiele.filter(s => s.status === 'Offen').length;
     document.getElementById("dashboard").innerHTML = `
-        <div class="stat-card" style="background:#3b82f6;"><b>${allData.spiele.length}</b> Gesamt</div>
-        <div class="stat-card" style="background:#ef4444;"><b>${offen}</b> Offen</div>
-        <div class="stat-card" style="background:#22c55e;"><b>${allData.spiele.length - offen}</b> Besetzt</div>
+        <div class="stat-card" style="background:#3182ce;"><b>${allData.spiele.length}</b> Gesamt</div>
+        <div class="stat-card" style="background:#e53e3e;"><b>${offen}</b> Offen</div>
+        <div class="stat-card" style="background:#38a169;"><b>${allData.spiele.length - offen}</b> Besetzt</div>
     `;
 }
