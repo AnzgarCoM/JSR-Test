@@ -6,11 +6,10 @@
     <title>JSR Portal - SG Misburg</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
 </head>
 <body>
 
-<header style="background: #0033a0;">
+<header>
     <h1>JSR Portal - SG Misburg</h1>
 </header>
 
@@ -19,21 +18,22 @@
         <h2 id="authTitle">Login</h2>
         <input type="email" id="emailInput" placeholder="E-Mail...">
         <input type="password" id="pwInput" placeholder="Passwort...">
+        
         <div id="authButtons">
             <button onclick="handleLogin()" class="full-btn">Einloggen</button>
-            <p style="margin: 15px 0 5px 0; font-size: 0.8rem;">Neu hier?</p>
-            <button onclick="toggleAuthMode()" class="full-btn" style="background: #718096;">Konto erstellen</button>
+            <button onclick="toggleAuthMode()" class="secondary-btn">Konto erstellen</button>
         </div>
-        <p id="errorMsg" style="color: red; margin-top: 10px;"></p>
+        
+        <p style="margin-top: 15px;">
+            <a href="#" onclick="forgotPassword()" style="font-size: 0.8rem; color: #0033a0;">Passwort vergessen?</a>
+        </p>
+        <p id="errorMsg" style="color: red; margin-top: 10px; font-weight: bold;"></p>
     </div>
 </div>
 
 <div id="mainContent" style="display:none;">
     <div class="user-bar">
-        <div class="user-info">
-            <span id="userStatus">...</span>
-            <span id="onlineIndicator" class="status-dot"></span>
-        </div>
+        <span id="userStatus">...</span>
         <button onclick="handleLogout()" class="logout-btn">Abmelden 🚪</button>
     </div>
 
@@ -41,21 +41,16 @@
         <div id="dashboard" class="dashboard-grid"></div>
     </div>
 
-    <div class="card">
-        <h3>🗓️ Spielplan</h3>
-        <div id="calendar"></div>
-    </div>
-
     <div class="section-container">
         <div class="table-header-flex">
-            <h3>⚽ Spiele</h3>
+            <h3>⚽ Aktuelle Spiele (Sortiert nach Datum)</h3>
             <button class="admin-only add-btn" onclick="addEntry()" style="display:none;">+ Neues Spiel</button>
         </div>
         <div class="table-container">
             <table id="spieleTable">
                 <thead>
                     <tr>
-                        <th>Datum</th><th>Zeit</th><th>Halle</th><th>Klasse</th><th>JSR 1</th><th>JSR 2</th><th>Bemerkung</th><th>Status</th><th class="admin-only">X</th>
+                        <th>Datum</th><th>Zeit</th><th>Halle</th><th>Klasse</th><th>JSR 1</th><th>JSR 2</th><th>Status</th><th>Aktion</th><th class="admin-only">X</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
