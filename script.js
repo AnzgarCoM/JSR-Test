@@ -14,30 +14,48 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+
 const DOC_REF = doc(db, "plan", "test_struktur");
-const ADMIN_EMAIL = "sgmisburgjsr@outlook.de";
+const ADMIN_EMAIL = "sgmisburgjsr@outlook.de"; // Deine Admin-Mail
+const WHATSAPP_NUMMER = "491761234567"; // DEINE NUMMER HIER (mit 49 ohne +)
 
 let userRole = null;
 let allData = { spiele: [] };
+let isRegistrationMode = false;
 
-// --- AUTH ---
+// --- AUTH LOGIK ---
+
+window.toggleAuthMode = () => {
+    isRegistrationMode = !isRegistrationMode;
+    document.getElementById("authTitle").innerText = isRegistrationMode ? "Registrieren" : "Login";
+    document.getElementById("authButtons").innerHTML = isRegistrationMode ? 
+        `<button onclick="handleRegister()" class="full-btn" style="background: #38a169;">Konto erstellen</button><button onclick="location.reload()" class="secondary-btn" style="margin-top:10px;">Zurück</button>` : 
+        `<button onclick="handleLogin()" class="full-btn">Einloggen</button><button onclick="toggleAuthMode()" class="secondary-btn" style="margin-top:10px;">Konto erstellen</button>`;
+};
+
 window.handleLogin = () => {
     const email = document.getElementById("emailInput").value.trim();
     const pw = document.getElementById("pwInput").value;
     signInWithEmailAndPassword(auth, email, pw).catch(e => alert("Fehler: " + e.message));
 };
 
+window.handleRegister = () => {
+    const email = document.getElementById("emailInput").value.trim();
+    const pw = document.getElementById("pwInput").value;
+    createUserWithEmailAndPassword(auth, email, pw).catch(e => alert("Fehler: " + e.message));
+};
+
 window.forgotPassword = () => {
     const email = document.getElementById("emailInput").value.trim();
     if(!email) return alert("Bitte E-Mail eingeben!");
-    sendPasswordResetEmail(auth, email).then(() => alert("Link zum Zurücksetzen gesendet!")).catch(e => alert(e.message));
+    sendPasswordResetEmail(auth, email).then(() => alert("Email zum Zurücksetzen gesendet!")).catch(e => alert(e.message));
 };
+
+window.handleLogout = () => signOut(auth).then(() => location.reload());
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
         userRole = (user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) ? 'admin' : 'schiri';
-        document.getElementById("loginSection").style.display = "none";
-        document.getElementById("mainContent").style.display = "block";
         startApp();
     } else {
         document.getElementById("loginSection").style.display = "block";
@@ -45,18 +63,24 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-window.handleLogout = () => signOut(auth).then(() => location.reload());
+// --- HAUPT APP ---
 
-// --- CORE APP ---
 function startApp() {
-    document.getElementById("userStatus").innerText = "Eingeloggt: " + auth.currentUser.email + " (" + userRole + ")";
-    if(userRole === 'admin') document.querySelectorAll('.admin-only').forEach(e => e.style.display = 'inline-block');
+    document.getElementById("loginSection").style.display = "none";
+    document.getElementById("mainContent").style.display = "block";
+    document.getElementById("userStatus").innerText = userRole === 'admin' ? "👑 Admin-Modus" : "🏃 Schiedsrichter-Modus";
+    
+    if (userRole === 'admin') {
+        document.querySelectorAll('.admin-only').forEach(e => e.style.display = 'inline-block');
+    }
 
     onSnapshot(DOC_REF, (snap) => {
         if (snap.exists()) {
             allData = snap.data();
             renderTable();
             updateDashboard();
+        } else if (userRole === 'admin') {
+            setDoc(DOC_REF, { spiele: [] });
         }
     });
 }
@@ -67,58 +91,61 @@ function renderTable() {
     const isAdmin = (userRole === 'admin');
     const heute = new Date().toISOString().split('T')[0];
 
-    // SORTIERUNG: Nach Datum aufsteigend
+    // SORTIERUNG: Datum aufsteigend
     const sortierteSpiele = [...allData.spiele].sort((a, b) => new Date(a.date) - new Date(b.date));
 
-    sortierteSpiele.forEach((item, originalIndex) => {
-        // ARCHIV: Nur heutige oder zukünftige Spiele anzeigen
-        if (item.date && item.date < heute && !isAdmin) return; 
+    sortierteSpiele.forEach((item, i) => {
+        // ARCHIV: Vergangene Spiele für Schiris ausblenden
+        if (item.date && item.date < heute && !isAdmin) return;
 
         const tr = document.createElement("tr");
-        if(item.date < heute) tr.style.opacity = "0.5"; // Vergangene Spiele für Admin ausgrauen
+        if(item.date < heute) tr.style.background = "#f7fafc"; // Altes Spiel markieren
 
         tr.innerHTML = `
-            <td><input type="date" value="${item.date}" ${!isAdmin?'disabled':''} onchange="updateRow(${originalIndex},'date',this.value)"></td>
-            <td><input type="text" value="${item.time}" ${!isAdmin?'disabled':''} onchange="updateRow(${originalIndex},'time',this.value)"></td>
-            <td><input type="text" value="${item.hall}" ${!isAdmin?'disabled':''} onchange="updateRow(${originalIndex},'hall',this.value)"></td>
-            <td><input type="text" value="${item.age}" ${!isAdmin?'disabled':''} onchange="updateRow(${originalIndex},'age',this.value)"></td>
-            <td><input type="text" value="${item.jsr1}" ${!isAdmin?'disabled':''} onchange="updateRow(${originalIndex},'jsr1',this.value)"></td>
-            <td><input type="text" value="${item.jsr2}" ${!isAdmin?'disabled':''} onchange="updateRow(${originalIndex},'jsr2',this.value)"></td>
+            <td><input type="date" value="${item.date}" ${!isAdmin ? 'disabled' : ''} onchange="updateRow(${i},'date',this.value)"></td>
+            <td><input type="text" value="${item.time}" ${!isAdmin ? 'disabled' : ''} onchange="updateRow(${i},'time',this.value)"></td>
+            <td><input type="text" value="${item.hall}" ${!isAdmin ? 'disabled' : ''} onchange="updateRow(${i},'hall',this.value)"></td>
+            <td><input type="text" value="${item.age}" ${!isAdmin ? 'disabled' : ''} onchange="updateRow(${i},'age',this.value)"></td>
+            <td><input type="text" value="${item.jsr1}" ${!isAdmin ? 'disabled' : ''} onchange="updateRow(${i},'jsr1',this.value)"></td>
+            <td><input type="text" value="${item.jsr2}" ${!isAdmin ? 'disabled' : ''} onchange="updateRow(${i},'jsr2',this.value)"></td>
             <td>
-                <select ${!isAdmin?'disabled':''} onchange="updateRow(${originalIndex},'status',this.value)">
+                <select ${!isAdmin ? 'disabled' : ''} onchange="updateRow(${i},'status',this.value)" class="${item.status==='Offen'?'status-offen':'status-besetzt'}">
                     <option value="Offen" ${item.status==='Offen'?'selected':''}>Offen</option>
                     <option value="Besetzt" ${item.status==='Besetzt'?'selected':''}>Besetzt</option>
                 </select>
             </td>
             <td>
-                ${!isAdmin && item.status === 'Offen' ? `<button class="request-btn" onclick="sendRequest('${item.date}', '${item.age}')">Übernehmen</button>` : '-'}
+                ${!isAdmin && item.status === 'Offen' ? 
+                `<button class="whatsapp-btn" onclick="sendWhatsApp('${item.date}','${item.time}','${item.age}','${item.hall}')">Melden 🟢</button>` : 
+                (isAdmin ? '<small>Admin</small>' : '---')}
             </td>
-            ${isAdmin ? `<td><button onclick="deleteEntry(${originalIndex})">🗑️</button></td>` : ''}
+            ${isAdmin ? `<td><button onclick="deleteEntry(${i})" style="color:red; background:none; border:none; cursor:pointer;">🗑️</button></td>` : ''}
         `;
         tbody.appendChild(tr);
     });
 }
 
-// INTERESSE-BUTTON: Öffnet E-Mail Programm
-window.sendRequest = (date, team) => {
-    const subject = encodeURIComponent("JSR Einsatzmeldung");
-    const body = encodeURIComponent(`Hallo Admin,\n\nich möchte gerne das Spiel am ${date} bei der ${team} pfeifen.\n\nSchiri: ${auth.currentUser.email}`);
-    window.location.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
+// WhatsApp Funktion
+window.sendWhatsApp = (date, time, age, hall) => {
+    const text = `Hallo! Ich würde gerne folgendes Spiel pfeifen:\n📅 Datum: ${date}\n⏰ Zeit: ${time}\n⚽ Spiel: ${age}\n🏢 Halle: ${hall}\n\nIst das noch frei?`;
+    window.open(`https://wa.me/${WHATSAPP_NUMMER}?text=${encodeURIComponent(text)}`, '_blank');
 };
 
+// Datenbank Funktionen
 window.updateRow = async (i, k, v) => {
-    if(userRole !== 'admin') return;
+    if (userRole !== 'admin') return;
     allData.spiele[i][k] = v;
     await setDoc(DOC_REF, allData);
 };
 
 window.addEntry = async () => {
+    if (userRole !== 'admin') return;
     allData.spiele.push({ date: "", time: "", hall: "", age: "", jsr1: "", jsr2: "", status: "Offen" });
     await setDoc(DOC_REF, allData);
 };
 
 window.deleteEntry = async (i) => {
-    if(confirm("Löschen?")) {
+    if (userRole === 'admin' && confirm("Löschen?")) {
         allData.spiele.splice(i, 1);
         await setDoc(DOC_REF, allData);
     }
@@ -127,8 +154,8 @@ window.deleteEntry = async (i) => {
 function updateDashboard() {
     const offen = allData.spiele.filter(s => s.status === 'Offen').length;
     document.getElementById("dashboard").innerHTML = `
-        <div class="stat-card blue"><span>${allData.spiele.length}</span><br>Gesamt</div>
-        <div class="stat-card red"><span>${offen}</span><br>Offen</div>
-        <div class="stat-card green"><span>${allData.spiele.length - offen}</span><br>Besetzt</div>
+        <div class="stat-card" style="background:#3182ce;"><span>${allData.spiele.length}</span>Spiele</div>
+        <div class="stat-card" style="background:#e53e3e;"><span>${offen}</span>Offen</div>
+        <div class="stat-card" style="background:#38a169;"><span>${allData.spiele.length - offen}</span>Besetzt</div>
     `;
 }
