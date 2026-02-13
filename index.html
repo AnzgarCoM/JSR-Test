@@ -2,69 +2,49 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JSR Portal - SG Misburg</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header><h1>JSR Portal - SG Misburg</h1></header>
 
-<header>
-    <h1>JSR Portal - SG Misburg</h1>
-</header>
-
-<div id="loginSection">
-    <div class="card login-card">
-        <h2 id="authTitle">Login</h2>
-        <input type="email" id="emailInput" placeholder="E-Mail...">
-        <input type="password" id="pwInput" placeholder="Passwort...">
-        
-        <div id="authButtons">
-            <button onclick="handleLogin()" class="full-btn">Einloggen</button>
-            <p style="margin: 10px 0; font-size: 0.8rem;">Noch kein Konto?</p>
-            <button onclick="toggleAuthMode()" class="secondary-btn">Registrieren</button>
-        </div>
-        
-        <p style="margin-top: 20px;">
-            <a href="#" onclick="forgotPassword()" style="font-size: 0.85rem; color: #0033a0; text-decoration: none;">Passwort vergessen?</a>
-        </p>
-    </div>
-</div>
-
-<div id="mainContent" style="display:none;">
-    <div class="user-bar">
-        <span id="userStatus">Prüfe Status...</span>
-        <button onclick="handleLogout()" class="logout-btn">Abmelden 🚪</button>
-    </div>
-
-    <div id="dashboard" class="dashboard-grid"></div>
-
-    <div class="card table-card">
-        <div class="table-header-flex">
-            <h3>⚽ Aktueller Spielplan</h3>
-            <button class="admin-only add-btn" onclick="addEntry()" style="display:none;">+ Neues Spiel</button>
-        </div>
-        
-        <div class="table-container">
-            <table id="spieleTable">
-                <thead>
-                    <tr>
-                        <th>Datum</th>
-                        <th>Zeit</th>
-                        <th>Halle</th>
-                        <th>Klasse</th>
-                        <th>JSR 1</th>
-                        <th>JSR 2</th>
-                        <th>Status</th>
-                        <th>Aktion</th>
-                        <th class="admin-only" style="display:none;">Löschen</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+    <div id="loginSection">
+        <div class="card login-card">
+            <h2 id="authTitle">Login</h2>
+            <input type="email" id="emailInput" placeholder="E-Mail...">
+            <input type="password" id="pwInput" placeholder="Passwort...">
+            <div id="authButtons">
+                <button onclick="handleLogin()" class="full-btn">Einloggen</button>
+                <button onclick="toggleAuthMode()" class="secondary-btn">Registrieren</button>
+            </div>
+            <p><a href="#" onclick="forgotPassword()">Passwort vergessen?</a></p>
         </div>
     </div>
-</div>
 
-<script type="module" src="script.js"></script>
+    <div id="mainContent" style="display:none;">
+        <div class="user-bar">
+            <span id="userStatus">...</span>
+            <button onclick="handleLogout()" class="logout-btn">Abmelden</button>
+        </div>
+        <div id="dashboard" class="dashboard-grid"></div>
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3>Spielplan</h3>
+                <button class="admin-only add-btn" onclick="addEntry()" style="display:none;">+ Neues Spiel</button>
+            </div>
+            <div style="overflow-x:auto;">
+                <table id="spieleTable">
+                    <thead>
+                        <tr>
+                            <th>Datum</th><th>Zeit</th><th>Halle</th><th>Klasse</th><th>JSR 1</th><th>JSR 2</th><th>Status</th><th>Aktion</th><th class="admin-only">X</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
