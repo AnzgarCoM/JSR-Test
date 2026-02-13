@@ -16,7 +16,7 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const DOC_REF = doc(db, "plan", "test_struktur");
 const ADMIN_EMAIL = "sgmisburgjsr@outlook.de";
-const MEINE_NUMMER = "4917612345678"; 
+const MEINE_NUMMER = "4915204500763"; 
 
 let userRole = null;
 let allData = { spiele: [] };
