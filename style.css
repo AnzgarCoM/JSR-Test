@@ -1,28 +1,206 @@
-body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; color: #333; }
-header { background: #0033a0; color: white; padding: 15px; text-align: center; font-size: 0.9rem; }
-.card { background: white; margin: 15px auto; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 90%; max-width: 1200px; }
-.login-card { max-width: 350px; text-align: center; margin-top: 50px; }
+/* --- BASIS EINSTELLUNGEN --- */
+:root {
+    --primary-blue: #0033a0;      /* SG Misburg Blau */
+    --accent-blue: #1a4fb0;
+    --whatsapp-green: #25D366;
+    --danger-red: #e53e3e;
+    --success-green: #38a169;
+    --bg-gray: #f0f2f5;
+    --white: #ffffff;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
-input, select { padding: 8px; margin: 5px 0; border: 1px solid #ddd; border-radius: 5px; width: 100%; box-sizing: border-box; }
-input:disabled, select:disabled { background: #f9f9f9; color: #333; border: 1px solid #eee; opacity: 1; -webkit-text-fill-color: #333; }
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-gray);
+    margin: 0;
+    padding: 0;
+    color: #1a202c;
+    line-height: 1.6;
+}
 
-.full-btn { background: #0033a0; color: white; border: none; padding: 12px; border-radius: 6px; width: 100%; cursor: pointer; font-weight: bold; }
-.secondary-btn { background: white; color: #0033a0; border: 1px solid #0033a0; padding: 10px; border-radius: 6px; width: 100%; cursor: pointer; }
+/* --- HEADER --- */
+header {
+    background: var(--primary-blue);
+    color: white;
+    padding: 1rem 2rem;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
 
-.user-bar { background: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0033a0; }
-.logout-btn { background: #fee2e2; color: #991b1b; border: none; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 0.8rem; }
+header h1 {
+    margin: 0;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+}
 
-.table-container { overflow-x: auto; margin-top: 10px; }
-table { width: 100%; border-collapse: collapse; min-width: 850px; }
-th { background: #f8fafc; padding: 10px; text-align: left; border-bottom: 2px solid #eee; font-size: 0.85rem; }
-td { padding: 8px; border-bottom: 1px solid #f0f0f0; }
+/* --- CONTAINER & CARDS --- */
+.card {
+    background: var(--white);
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid #e2e8f0;
+}
 
-.status-offen { color: #dc2626; font-weight: bold; }
-.status-besetzt { color: #16a34a; font-weight: bold; }
+#loginSection {
+    max-width: 400px;
+    margin-top: 100px;
+    text-align: center;
+}
 
-.whatsapp-btn { background: #25D366; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; font-size: 0.75rem; }
-.add-btn { background: #16a34a; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+/* --- DASHBOARD --- */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 10px;
+}
 
-.dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 90%; max-width: 600px; margin: 15px auto; }
-.stat-card { padding: 10px; border-radius: 8px; text-align: center; color: white; font-size: 0.8rem; }
-.stat-card b { font-size: 1.2rem; display: block; }
+.stat-card {
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+/* --- TABELLE --- */
+.table-container {
+    overflow-x: auto; /* Wichtig für Mobile */
+    margin-top: 20px;
+    border-radius: 8px;
+    border: 1px solid #edf2f7;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px; /* Verhindert das Quetschen der Spalten */
+}
+
+th {
+    background: #f8fafc;
+    padding: 15px 10px;
+    text-align: left;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #64748b;
+    border-bottom: 2px solid #edf2f7;
+}
+
+td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #edf2f7;
+    vertical-align: middle;
+}
+
+tr:hover {
+    background-color: #f9fafb;
+}
+
+/* TURNIER-STYLING */
+.is-tournament {
+    background-color: #fffaf0 !important; /* Goldener Schimmer */
+    border-left: 6px solid #ed8936;
+}
+
+.is-tournament input {
+    background-color: #fffaf0;
+}
+
+/* --- FORMULARE --- */
+input, select {
+    border: 1px solid #cbd5e0;
+    padding: 8px;
+    border-radius: 6px;
+    width: 100%;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(0, 51, 160, 0.1);
+}
+
+input:disabled, select:disabled {
+    background-color: transparent;
+    border: none;
+    color: #2d3748;
+    cursor: default;
+    appearance: none; /* Entfernt Dropdown-Pfeil bei Schiris */
+}
+
+/* --- BUTTONS --- */
+.add-btn {
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.add-btn:hover {
+    background-color: var(--accent-blue);
+}
+
+.whatsapp-btn {
+    background-color: var(--whatsapp-green);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.whatsapp-btn:hover {
+    background-color: #1eb956;
+    box-shadow: 0 4px 8px rgba(37, 211, 102, 0.3);
+}
+
+.logout-btn {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.logout-btn:hover {
+    background: rgba(255,255,255,0.25);
+}
+
+/* --- MOBILE OPTIMIERUNG --- */
+@media (max-width: 600px) {
+    header {
+        padding: 1rem;
+    }
+    
+    .card {
+        margin: 10px;
+        padding: 15px;
+    }
+    
+    .stat-card {
+        font-size: 0.9rem;
+    }
+}
